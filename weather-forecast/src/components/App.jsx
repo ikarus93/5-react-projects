@@ -1,9 +1,15 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import RowContainer from './RowContainer.jsx';
+import PropTypes from 'prop-types'; 
 
 class App extends React.Component {
   contructor(props) {
     this.state = {url: ''};
+  }
+  
+  static PropTypes = {
+    icons: PropTypes.object.isRequired
   }
   
   componentWillMount() {
@@ -23,7 +29,7 @@ class App extends React.Component {
     }
     return (
       <div className="app">
-       <RowContainer icons={this.props.icons} url={this.state.url}/>
+        <RowContainer icons={this.props.icons} url={this.state.url}/>
       </div>
     );
   }

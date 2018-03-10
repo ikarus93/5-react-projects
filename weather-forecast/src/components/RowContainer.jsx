@@ -1,5 +1,6 @@
 import React from 'react';
 import Row from './Row.jsx';
+import PropTypes from 'prop-types'; 
 
 class RowContainer extends React.Component {
   //Parent component of Row, holds reference to days and fetches weather data
@@ -11,6 +12,10 @@ class RowContainer extends React.Component {
 
     this.createDaySeq = this.createDaySeq.bind(this);
     this.parseIcons = this.parseIcons.bind(this);
+  }
+  
+  static PropTypes = {
+    dayActive : PropTypes.string.isRequired
   }
   
   parseIcons(icon) {

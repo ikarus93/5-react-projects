@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types'; 
 
 const Row = props => {
   //Child component of RowContainer, renders list view
@@ -19,5 +20,9 @@ const Row = props => {
     </div>
   );
 };
+
+Row.PropTypes = {
+  fields: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
 
 export default Row;
