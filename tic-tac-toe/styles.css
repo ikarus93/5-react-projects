@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgba(0,0,0,0.8)
+}
+.canvas {
+  text-align: center;
+  margin: 50px auto 0;
+  width: 500px;
+}
+
+.canvas button {
+  background-color: #000;
+  font-size: 4rem;
+  height: 5rem;
+  width: 5rem;
+}
+ul {
+  list-style: none;
+  margin-top: -200px
+}
+
+li {
+  padding-left: none;
+  padding-top: 20px;
+  color: #fff;
+  font-family: 'Krona One', sans-serif;
+  font-size: 2rem;
+
+}
+
+.notyet {
+  color: #000
+}
+
+.yet {
+  color: #fff;
+}

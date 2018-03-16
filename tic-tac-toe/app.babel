@@ -1,0 +1,132 @@
+//Stateless functional components
+function Row(props) {
+  //Each row of the canvas
+  return (
+    <div className="row">
+      {props.row.map((field, idx) => {
+        return (
+          <button
+            key={idx}
+            className={field === 0 ? "notyet" : "yet"}
+            onClick={() => {
+              props.getId(props.parentId, idx);
+            }}
+          >
+            {field}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function Tracker(props) {
+  //tracks user turn and tries left
+  return (
+    <ul className="tracker">
+      <li>Turn:  {props.turn}</li>
+      <li>Tries left:  {props.tries}</li>
+    </ul>
+  );
+}
+
+//Component classes
+class Canvas extends React.Component {
+  //Tacks canvas array, uses getId to bring data back to parent component App
+  getId = (val1, val2) => {
+    this.props.updateCanvas(val1, val2);
+  };
+
+  render() {
+    return (
+      <div className="canvas">
+        {this.props.canvas.map((row, idx) => {
+          return <Row row={row} parentId={idx} getId={this.getId} key={idx} />;
+        })}
+      </div>
+    );
+  }
+}
+
+class App extends React.Component {
+  //Main App compent holds main App state, checks if game is done, updates canvas and checks for a winner
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      canvas: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+      done: false,
+      turn: "X",
+      tries: 9
+    };
+  }
+
+  checkDone = () => {
+    done = true;
+    this.state.canvas.forEach(rows => {
+      if (rows.indexOf(0) !== -1) {
+        done = false;
+      }
+    });
+    return done;
+  };
+
+  updateCanvas = (row, cell) => {
+    let arr = this.state.canvas;
+    if (arr[row][cell] === 0 && !this.state.done) {
+      arr[row][cell] = this.state.turn;
+      this.setState({
+        canvas: arr,
+        turn: this.state.turn === "X" ? "O" : "X",
+        done: this.checkDone(),
+        tries: this.state.tries - 1
+      });
+      if (this.checkWin(this.state.turn)) {
+        this.state.turn = `${this.state.turn} won the game`
+        this.state.done = true;
+        this.setState(this.state)
+      }
+    }
+  };
+  checkWin = player => {
+    let winner = false;
+    let canvas = [].concat.apply([], this.state.canvas);
+    // if (canvas.indexOf(0) !== -1) return false;
+    const combos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+    function check(p, c) {
+      return (
+        c.filter(i => {
+          return canvas[i] === p;
+        }).length === 3
+      );
+    }
+    combos.forEach(combo => {
+      if (check(player, combo)) {
+        winner = true;
+      }
+    });
+    return winner;
+  };
+
+  render() {
+    return (
+      <div className="app">
+        <Canvas canvas={this.state.canvas} updateCanvas={this.updateCanvas} />{" "}
+        <Tracker tries={this.state.tries} turn={this.state.turn} />
+      </div>
+    );
+  }
+}
+
+App.defaultProps = { player1: "X", player2: "O" };
+
+ReactDOM.render(<App />, document.getElementById("container"));
