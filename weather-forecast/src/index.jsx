@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import App from './components/App.jsx'
 
 const icons = {
@@ -12,8 +11,6 @@ const icons = {
 }
 
 
-ReactDOM.render((<BrowserRouter>
-                   <App icons={icons}/>
-                 </BrowserRouter>), document.getElementById("container"));
+ReactDOM.render((<App icons={icons}/>), document.getElementById("container"));
 
 
